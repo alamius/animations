@@ -1,20 +1,28 @@
 function Para_function(fx, fy, range){
     this.fx = fx    || function(t){    return t;   };
     this.fy = fy    || function(t){    return t;   };
-    this.rng = range|| [0, 6.28, 0.05];
-    this.min_t = this.rng[0];
-    this.max_t = this.rng[1];
-    this.dt = this.rng[2];
+    if(range !== undefined){
+        this.t = new Range(range);
+    }else{
+        this.t = new Range([0, 6.28, 0.05]);
+    }
     this.G = [];
 
     this.get_graph = function(){
         this.G = [];
-        for(t = this.min_t; t < this.max_t; t += this.dt){
+        for(this.t.init(); this.t.in_range(); this.t.next()){
             this.G.push(createVector(
-                this.fx(t),
-                this.fy(t)
+                this.fx(this.t.val),
+                this.fy(this.t.val)
             ));
         }
+    }
+
+    this.get_point = function(t){
+        if(t === 'last'){
+            return this.G[this.G.length-1];
+        }
+        return this.G[floor(map(t, this.t.min, this.t.max, 0, this.G.length))];
     }
 
     this.show_graph = function(x_range, y_range){
