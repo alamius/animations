@@ -74,4 +74,13 @@ function Stretch(){
     this.map_y = function(y){
         return map(y, this.y_min, this.y_max, this.height, 0);
     }
+    this.expand_evenly = function(factor){
+        this.min_x *= factor;
+        this.max_x *= factor;
+        this.min_y *= factor;
+        this.max_y *= factor;
+        this.w = this.x_max - this.x_min;
+        this.h = this.y_max - this.y_min;
+        this.diff = createVector(width / this.w, (this.height) / this.h);
+    }
 }

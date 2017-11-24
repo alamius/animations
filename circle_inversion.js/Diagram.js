@@ -1,9 +1,9 @@
-function Diagram(){
+function Diagram(x_rng, y_rng){
     this.height = 100;
-    this.x_min = -2;
-    this.x_max = 8;
-    this.y_min = -5;
-    this.y_max = 15;
+    this.x_min = x_rng[0] || x_rng.min || -3;
+    this.x_max = x_rng[1] || x_rng.max || 3;
+    this.y_min = y_rng[0] || y_rng.min || -1;
+    this.y_max = y_rng[1] || y_rng.max || 1;
     this.P = [];
 
     this.formula = function(x){
@@ -28,7 +28,7 @@ function Diagram(){
             p = this.P[i];
             // near = get_nearest_point(this.P, p);
             near = this.P[i-1];
-            if(near !== undefined){
+            if(near !== undefined && dist(p.x, p.y, near.x, near.y) < 1){
                 this.px = map(   p.x, this.x_min, this.x_max, 0, width);
                 this.py = map(   p.y, this.y_min, this.y_max, height, height-this.height);
                 this.nx = map(near.x, this.x_min, this.x_max, 0, width);
